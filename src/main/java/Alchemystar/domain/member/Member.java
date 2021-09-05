@@ -12,9 +12,13 @@ public class Member {
 
     @NotEmpty
     private Long loginId;
-    @NotEmpty
-    private String name;
+//    @NotEmpty
+//    private String name;
     @NotEmpty
     private String password;
+    @NotEmpty
+    private String email;
+
+
 
 }
