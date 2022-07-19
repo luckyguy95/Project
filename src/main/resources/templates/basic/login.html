@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!--xmlns="http://www.w3.org/1999/html"-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+
+<head>
+    <meta charset="UTF-8">
+
+    <link href="bootstrap/css/signin.css" rel="stylesheet">
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <title>Login</title>
+</head>
+
+<body class="text-center">
+    <form class="form-signin" th:action="@{/login}" method="post">
+<!--        <img class="mb-4" src="/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">-->
+
+        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+        <div th:if="${param.error}" class="alert alert-danger" role="alert">
+            Invalid username and password.
+        </div>
+        <div th:if="${param.logout}" class="alert alert-primary" role="alert">
+            You have been logged out.
+        </div>
+        <div class="form-floating">
+            <input type="text" class="form-control" id="username" name="username" placeholder="ID">
+            <label for="username">ID</label>
+        </div>
+        <div class="form-floating" >
+            <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
+            <label for="floatingPassword">Password</label>
+        </div>
+
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" >Sign in</button>
+        <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+    </form>
+</body>
+</html>

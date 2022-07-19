@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>게시판</title>
+    <link href="/bootstrap/css/styles.css" rel="stylesheet"/>
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/bootstrap/css/comment.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"rel="stylesheet" >
+    <th:block th:replace="fragment/header :: headerFragment" ></th:block>
+</head>
+<body>
+<div class="container">
+    <hr>
+    <h2>게시판</h2>
+    <hr>
+    <form th:object="${board}" method="post">
+        <input type="hidden" th:field="*{id}">
+        <div class="mb-3">
+            <input type="text" class="form-control" th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'" id="title" th:field="*{title}" disabled >
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">
+                제목이 유효하지 않습니다.
+            </div>
+        </div>
+        <hr>
+        <div class="mb-3">
+                    <textarea class="form-control" id="content" rows="3"
+                              th:classappend="${#fields.hasErrors('content')} ? 'is-invalid'" th:field="*{content}" disabled ></textarea>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">
+                내용이 유효하지 않습니다.
+            </div>
+        </div>
+        <hr>
+        <div class="text-end">
+            <button type="button" class="btn btn-primary" th:onclick="|location.href='@{./list}'|">목록</button>
+            <button type="button" class="btn btn-outline-primary" sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/board/{id}/edit(id=${board.id})}">수정</a></button>
+
+        </div>
+        <hr>
+    </form>
+
+    <div class="container bootdey">
+        <div class="col-md-12 bootstrap snippets">
+            <div class="panel">
+                <div class="panel-body">
+                    <textarea class="form-control" rows="2" placeholder="댓글을 입력해주세요."></textarea>
+                    <div class="mar-top clearfix">
+                        <button class="btn btn-sm btn-primary pull-right" type="submit"><i class="fa fa-pencil fa-fw"></i>등록</button>
+                        <!--                                <a class="btn btn-trans btn-icon fa fa-file add-tooltip" href="#"></a>-->
+                        <!--                                <a class="btn btn-trans btn-icon fa fa-video-camera add-tooltip" href="#"></a>-->
+                        <!--                                <a class="btn btn-trans btn-icon fa fa-camera add-tooltip" href="#"></a>-->
+                    </div>
+                    <div class="media">
+                        <div class="media-left">
+                            <img src="http://fakeimg.pl/50x50" class="media-object" style="width:40px">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading title">Fahmi Arif</h4>
+                            <p class="komen">
+                                kalo bisa ya ndak usah gan biar cepet<br>
+                                <button class="btn" >reply</button>
+
+                            </p>
+                        </div>
+                    </div>
+                    <div class="geser">
+                        <div class="media">
+                            <div class="media-left">
+                                <img src="http://fakeimg.pl/50x50" class="media-object" style="width:40px">
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading title">Fahmi Arif</h4>
+                                <p class="komen">
+                                    kalo bisa ya ndak usah gan biar cepet<br>
+                                    <a href="#">reply</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function reactComment() {
+            //DELETE /api/boards/{id}
+            document.getElementById('reply').classList.add('comment');
+            alert(document.getElementById('reply').className);
+        }
+
+    </script>
+
+</div>
+<footer th:include="fragment/footer.html"></footer>
+</body>
+</html>
+
+

@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>게시판</title>
+        <link href="/bootstrap/css/styles.css" rel="stylesheet"/>
+        <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="/bootstrap/css/comment.css" rel="stylesheet">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"rel="stylesheet" >
+        <th:block th:replace="fragment/header :: headerFragment" ></th:block>
+    </head>
+    <body>
+        <div class="container">
+            <hr>
+            <hr>
+            <h2>게시판</h2>
+            <hr>
+            <form action="#" th:action="@{/board/{id}/edit(id=${board.id})}" th:object="${board}" method="post">
+                <input type="hidden" th:field="*{id}">
+                <div class="mb-3">
+                    <label for="title" class="form-label">제목</label>
+                    <input type="text" class="form-control" th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'" id="title" th:field="*{title}">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">
+                        제목이 유효하지 않습니다.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="content" class="form-label">내용</label>
+                    <textarea class="form-control" id="content" rows="3"
+                              th:classappend="${#fields.hasErrors('content')} ? 'is-invalid'" th:field="*{content}"></textarea>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">
+                        내용이 유효하지 않습니다.
+                    </div>
+                </div>
+                <div class="text-end">
+                    <button type="button" class="btn btn-primary" th:onclick="|location.href='@{../list}'|">취소</button>
+                    <button type="button" class="btn btn-primary" sec:authorize="hasRole('ROLE_ADMIN')" th:onclick="|deleteBoard(*{id})|">삭제</button>
+                    <button type="submit" class="btn btn-primary" th:onclick="|location.href='@{../list}'|">확인</button>
+                </div>
+            </form>
+        </div>
+        <footer th:include="fragment/footer.html"></footer>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+        function deleteBoard(id) {
+            //DELETE /api/boards/{id}
+            $.ajax({
+                url: '/api/boards/' +id,
+                type: 'DELETE',
+                success: function(result) {
+                    console.log('result', result);
+                    alert('삭제됐습니다.');
+                    window.location.href = '/board/list';
+                    // Do something with the result
+                }
+            });
+        }
+
+    </script>
+    </body>
+</html>
