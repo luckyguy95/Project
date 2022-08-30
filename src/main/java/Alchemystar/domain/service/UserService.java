@@ -44,7 +44,7 @@ public class UserService {
     public void save(User user) {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
-        Role role = new Role();
+        Role role = Role.USER;
         role.setId(1l);
 
         UserRole userRole = CreateUserRole(user, role);

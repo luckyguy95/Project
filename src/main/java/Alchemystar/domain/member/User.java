@@ -1,6 +1,7 @@
 package Alchemystar.domain.member;
 
 import Alchemystar.domain.model.Board;
+import Alchemystar.domain.posts.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
@@ -13,30 +14,37 @@ import java.util.List;
 
 @Entity
 @Data
-public class User {
+public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
+    @Column(nullable = false)
     private String username;
+    @Column(nullable = false)
     private String email;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
     private String password;
     private String nickname;
     private String picture;
 
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-    private List<UserRole> user_roles = new ArrayList<>();
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+//    private List<UserRole> user_roles = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<Board> boards = new ArrayList<>();
 
     @Builder
-    public User(String email, String password, String nickname, String picture) {
+    public User(String username, String email, String picture, Role role) {
+        this.username = username;
         this.email = email;
-        this.nickname = nickname;
         this.picture = picture;
+        this.role = role;
     }
 
     public User update(String name, String picture) {
@@ -44,6 +52,10 @@ public class User {
         this.picture = picture;
 
         return this;
+    }
+
+    public String getRoleKey() {
+        return this.role.getKey();
     }
 
 }

@@ -1,5 +1,6 @@
 package Alchemystar.config.auth;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +24,7 @@ import javax.sql.DataSource;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomOAuth2UserService customOAuth2UserService;
+    private DataSource dataSource;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

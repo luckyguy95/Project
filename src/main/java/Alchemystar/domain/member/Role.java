@@ -1,27 +1,17 @@
 package Alchemystar.domain.member;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@Entity
-@Data
-public class Role {
+@Getter
+@RequiredArgsConstructor
+public enum Role {
 
+    GUEST("ROLE_GUEST", "손님"),
+    USER("ROLE_USER", "일반 사용자");
 
+    private final String key;
+    private final String title;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
-    /*
-     *  id:1 name:ROLE_USER
-     *  id:3 name:ROLE_ADMIN
-     */
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
-    private List<UserRole> user_roles = new ArrayList<>();
 }
